@@ -11,9 +11,15 @@ for (let route of routes) {
     router.add([{ path: route.path, handler: route }], { as: route.name});
 }
 
-history.listen((location, action) => {
-    console.log('history.listen', location, action);
-});
+export function initializeRouter(listenCallback) {
+    history.listen(listenCallback);
+
+    pushHistoryState(window.location.pathname + window.location.search, { replace: true });
+}
+
+export function getRouteConfigFromName(routeName) {
+    return routes.find(r => r.name === routeName);
+}
 
 export function parseUrl(url) {
     let result = router.recognize(url)[0];

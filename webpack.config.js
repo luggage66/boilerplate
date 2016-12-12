@@ -22,7 +22,7 @@ var config = {
         loaders: [
             { test: /\.(js|jsx)$/, include: [path.resolve(__dirname, 'src/')], loader: 'babel-loader' },
             { test: /\.css$/, loader: "style!css?-minimize" },
-            { test: /\.scss$/, loader: 'style?-singleton!css?-minimize!sass'},
+            { test: /\.scss$/, loader: 'style?-singleton!css?-minimize&modules!sass'},
             { test: /\.png$/, loader: 'file?name=assets/[hash].[ext]'},
             { test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file?name=assets/[hash].[ext]" },
             { test: /\.json$/, loader: 'json' }
