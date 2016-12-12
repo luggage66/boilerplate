@@ -20,7 +20,7 @@ var config = {
     },
     module: {
         loaders: [
-            { test: /\.(js|jsx)$/, include: [path.resolve(__dirname, 'src/')], loader: 'babel-loader' },
+            { test: /\.js$/, include: [path.resolve(__dirname, 'src/')], loader: 'babel-loader' },
             { test: /\.css$/, loader: "style!css?-minimize" },
             { test: /\.scss$/, loader: 'style?-singleton!css?-minimize&modules!sass'},
             { test: /\.png$/, loader: 'file?name=assets/[hash].[ext]'},
@@ -46,7 +46,7 @@ var config = {
     ],
     resolve: {
         root: [path.join(__dirname, 'src/client')],
-        extensions: ["", ".webpack.js", ".web.js", ".js", '.jsx'],
+        extensions: ["", ".webpack.js", ".web.js", ".js"],
         alias: {
             //none, at the moment.
         }

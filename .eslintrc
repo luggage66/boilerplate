@@ -4,16 +4,6 @@
         "react"
     ],
     "extends": [ "eslint:recommended", "plugin:react/recommended" ],
-
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "modules": true,
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        }
-    },
     "env": {
         "es6": true
     },
