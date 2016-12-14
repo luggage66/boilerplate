@@ -1,4 +1,4 @@
-A minimal started for an SPA (single page app) using the following technology:
+A minimal starter for an SPA (single page app) using the following technology:
 
 * react - A popular view 'engine'.
 * webpack - A Javascript (and other files) bundler for turning a bunch of loose (but organized) JS files into a single file, ready for the browser.
@@ -20,13 +20,13 @@ I do not currently do:
 
 ## Getting started as a developer
 
-Fork and/or clone this repo, then install the dependencies
+Fork and/or clone this repo, then:
 
 ```
+# install the dependencies
 npm install
 
 # in one terminal, run:
-
 gulp dev-server
 
 # this will build the code, start the server, and
@@ -41,11 +41,20 @@ webpack --watch
 ### Commands
 
 * `gulp dev-server` - build / watch / rebuild loop for the server
+* `webpack --watch` - Webpack build/watch/rebuild loop
+
+
 * `gulp build-server` - just build the server
-* `gulp build-client` - build the client
+* `gulp build-client` - build the client (was as just running webpack)
+
+
 * `gulp clean-server` - clean up compiled output
 * `gulp clean-client` - clean up compiled output
 * `gulp clean-all` - clean up compiled output
+
+I use the node.js convention of the NODE_ENV environment variable, so set that if you want to enable production optimizations (like minimizing)
+
+`NODE_ENV=production webpack` - build a client w/ minimizing and compression
 
 ## TODO:
 
