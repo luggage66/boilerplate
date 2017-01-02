@@ -48,14 +48,15 @@ export class Link extends React.Component {
 
     handleClick(event) {
         event.preventDefault();
-        pushHistoryState(this.props);
+        let { route, params } = this.props;
+        pushHistoryState({ route, params });
     }
 
     render() {
         let { route, params, children, ...otherProps } = this.props;
         let url = getUrl(route, params);
 
-        return <a href={url} onClick={this.handleClick} {...otherProps}>{children}</a>;
+        return <a href={url} {...otherProps} onClick={this.handleClick}>{children}</a>;
     }
 }
 

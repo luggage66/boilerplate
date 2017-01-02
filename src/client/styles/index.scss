@@ -1,0 +1,63 @@
+@import '~normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+@import 'shadows';
+
+// https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-weight: 400;
+}
+
+$headerHeight: 38px;
+$headerBackgroundColor: #03A9F4;
+$headerColor: white;
+
+.app {
+}
+
+.header {
+    font-weight: 500;
+    @include card(2);
+    background-color: $headerBackgroundColor;
+    height: $headerHeight;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    text-decoration: none;
+    color: $headerColor;
+
+    a {
+        text-decoration: none;
+        color: $headerColor;
+    }
+
+    .title {
+        margin: 10px;
+        font-size: 18px;
+        line-height: 38px;
+    }
+
+    .menu {
+        display: inline-block;
+        list-style: none;
+
+        .menuItem {
+            font-size: 14px;
+            margin: 0;
+            padding: 12px;
+            line-height: $headerHeight;
+        }
+    }
+}
+
+.appBodyContainer {
+    margin-top: $headerHeight;
+    padding: 10px;
+}

@@ -1,5 +1,8 @@
 import React from 'react';
-import styles from '../style.scss';
+import styles from '../styles';
+import { Link } from '../routing';
+
+console.log(styles);
 
 export default class Header extends React.Component
 {
@@ -9,7 +12,11 @@ export default class Header extends React.Component
 
     render() {
         return <div className={styles.header}>
-            {this.props.children}
+            <Link className={styles.title} route="home">Boilerplate App</Link>
+            <div className={styles.menu}>
+                <Link className={styles.menuItem} route="viewUser" params={{ id: 312 }}>View User</Link>
+            </div>
+
         </div>;
     }
 }

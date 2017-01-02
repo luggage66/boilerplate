@@ -46,9 +46,10 @@ var config = {
     ],
     resolve: {
         root: [path.join(__dirname, 'src/client')],
-        extensions: ["", ".webpack.js", ".web.js", ".js"],
+        extensions: ["", ".webpack.js", ".web.js", ".js", ".scss"],
         alias: {
             //none, at the moment.
+            react: path.join(__dirname, 'node_modules/react')
         }
     },
     devServer: {
