@@ -12,7 +12,17 @@ for (let route of routes) {
 }
 
 export function initializeRouter(listenCallback) {
-    history.listen(listenCallback);
+    history.listen((location, action) => {
+        let route = getRouteConfigFromName(location.state.route);
+        listenCallback({
+            location: {
+                path: location.pathname,
+                query: location.search
+            },
+            state: location.state.params,
+            route: route
+        });
+    });
 
     pushHistoryState(window.location.pathname + window.location.search, { replace: true });
 }

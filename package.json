@@ -56,6 +56,8 @@
     "classnames": "^2.2.5",
     "express": "^4.14.0",
     "history": "^4.4.1",
+    "mobx": "^2.7.0",
+    "mobx-react": "^4.0.4",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-transition-group": "^15.4.1",

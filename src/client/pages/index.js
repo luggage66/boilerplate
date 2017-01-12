@@ -5,13 +5,12 @@ const routes = [
     {
         name: 'home',
         path: '',
-        component: Home
+        component: Home,
+        queries: {}
     },
-    {
-        name: 'viewUser',
-        path: 'users/:id',
-        component: ViewUser
-    }
+    ViewUser
 ];
+
+console.log(routes);
 
 export { routes };

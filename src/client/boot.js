@@ -1,20 +1,15 @@
 /* globals document */
 import React from 'react';
 import ReactDom from 'react-dom';
-import App from './app';
-import { initializeRouter } from './routing';
+import App from './layout/app';
+import ApplicationState from './applicationState';
 
 // make a root element to mount the app into
 let reactContainer = document.createElement('div');
 reactContainer.id = 'app-react-container';
 document.body.appendChild(reactContainer);
 
-function updateAppRef(app) {
-    window.app = app;
-    initializeRouter((location, action) => {
-        app.handleRouteChange(location.state);
-    });
-}
+let appState = window.app = new ApplicationState();
 
 //mounty mounty
-ReactDom.render(<App ref={updateAppRef} />, reactContainer);
+ReactDom.render(<App appState={appState} />, reactContainer);
