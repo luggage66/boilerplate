@@ -2,6 +2,7 @@ import React from 'react';
 import { observable, action, asReference, when } from 'mobx';
 import { initializeRouter, getRouteConfigFromName } from './routing';
 import { QueryRunner } from './queryRunner';
+import { ActiveRoute } from './route';
 
 export default class ApplicationState {
     @observable currentRoute = asReference({
@@ -23,9 +24,10 @@ export default class ApplicationState {
     handleRouteChange(newRoute) {
         console.log(newRoute);
 
-        this.pendingRoute = new QueryRunner(newRoute.route, newRoute.state);
+        this.pendingRoute = new ActiveRoute(newRoute);
+        //this.pendingRoute = new QueryRunner(newRoute.route, newRoute.state);
 
-        when(() => this.pendingRoute.dataLoaded, () => {
+        when(() => this.pendingRoute.ready, () => {
             this.currentRoute = this.pendingRoute;
             this.pendingRoute = null;
         });

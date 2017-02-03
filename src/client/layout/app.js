@@ -16,7 +16,7 @@ export default class App extends React.Component
 
         return <div className={styles.app}>
             <Header />
-            <PageContainer component={state.currentRoute.route.component} params={{route: state.currentRoute, ...state.currentRoute.state}} className="md-text-container md-cell md-cell--12" />
+            <PageContainer component={state.currentRoute.route.component} params={{route: state.currentRoute, ...state.currentRoute.componentProps}} className="md-text-container md-cell md-cell--12" />
         </div>;
     }
 }

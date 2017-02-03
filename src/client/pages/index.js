@@ -1,5 +1,6 @@
 import Home from './home';
 import ViewUser from './viewUser';
+import TestDataLoading from './testDataLoading';
 
 const routes = [
     {
@@ -8,7 +9,8 @@ const routes = [
         component: Home,
         queries: {}
     },
-    ViewUser
+    ViewUser,
+    TestDataLoading
 ];
 
 console.log(routes);

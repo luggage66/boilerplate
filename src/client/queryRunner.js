@@ -30,7 +30,6 @@ let queries = {
 };
 
 export class QueryRunner {
-    route;
     @observable variables = null;
     @observable data = null;
     queries = null;
@@ -40,15 +39,15 @@ export class QueryRunner {
     // At that time all required queries are loaded.
     @observable dataLoaded = false;
 
-    constructor(route, initialVariables) {
-        this.variables = Object.assign({}, route.defaultParams, initialVariables);
-        this.route = route;
+    constructor(queries, initialVariables) {
+        this.variables = initialVariables; //Object.assign({}, route.defaultParams, initialVariables);
+        this.queries = queries;
 
         this.startReacting();
 
         when(
             // When all required queries are done loading..
-            () => !Object.keys(this.route.queries).some(key => this.data[key].isLoading),
+            () => !Object.keys(this.queries).some(key => this.data[key].isLoading),
             () => {
                 this.dataLoaded = true;
             }
@@ -56,7 +55,7 @@ export class QueryRunner {
     }
 
     startReacting() {
-        let queries = this.route.queries;
+        let queries = this.queries;
         let variables = this.variables;
         let keys = Object.keys(queries);
         let data = this.data = keys.reduce((prev, key) => extendObservable(prev, {
@@ -127,12 +126,12 @@ export class QueryRunner {
     }
 
     dispose() {
-        Object.keys(this.route.queries).forEach(key => this.data[key].reactionDisposer());
+        Object.keys(this.queries).forEach(key => this.data[key].reactionDisposer());
     }
 
     @computed
     get state() {
-        let keys = Object.keys(this.route.queries);
+        let keys = Object.keys(this.queries);
 
         if (keys.some(key => this.data[key].failed)) {
             return "error";
