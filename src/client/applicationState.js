@@ -1,17 +1,17 @@
 import React from 'react';
-import { observable, action, asReference, when } from 'mobx';
+import { observable, action, when } from 'mobx';
 import { initializeRouter, getRouteConfigFromName } from './routing';
 import { QueryRunner } from './queryRunner';
 import { ActiveRoute } from './route';
 
 export default class ApplicationState {
-    @observable currentRoute = asReference({
+    @observable.ref currentRoute = {
         route: {
             component: function DummyRoute() { return <div>Dummy Loading Route</div>; },
         },
         state: {}
-    });
-    @observable pendingRoute = asReference(null);
+    };
+    @observable.ref pendingRoute = null;
 
     constructor() {
         //listen for navigation

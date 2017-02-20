@@ -7,7 +7,7 @@ const spawn = require('child_process').spawn;
 const changed = require('gulp-changed');
 const del = require('del');
 const webpack = require('webpack');
-const gulpWebpack = require('gulp-webpack');
+const webpackStream = require('webpack-stream');
 const runSequence = require('run-sequence');
 // const gzip = require('gulp-gzip');
 
@@ -52,7 +52,7 @@ gulp.task('build-server', () => {
 });
 
 gulp.task('build-client', () => {
-    return gulpWebpack(require('./webpack.config.js'), webpack)
+    return webpackStream(require('./webpack.config.js'), webpack)
         .pipe(gulp.dest(paths.clientDest));
 });
 

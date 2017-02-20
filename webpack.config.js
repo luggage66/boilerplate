@@ -19,24 +19,41 @@ var config = {
         publicPath: '/',
     },
     module: {
-        loaders: [
-            { test: /\.js$/, include: [path.resolve(__dirname, 'src/')], loader: 'babel-loader' },
-            { test: /\.css$/, loader: "style!css?-minimize" },
-            { test: /\.scss$/, loader: 'style?-singleton!css?-minimize&modules!sass'},
-            { test: /\.png$/, loader: 'file?name=assets/[hash].[ext]'},
-            { test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file?name=assets/[hash].[ext]" },
-            { test: /\.json$/, loader: 'json' }
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: [ /node_modules/ ], // only babel-ize our own code
+                use: ['babel-loader' ]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    { loader: 'style-loader', options: { singleton: false } },
+                    { loader: 'css-loader', options: { minimize: false, modules: true } },
+                    { loader: 'sass-loader' }
+                ]
+            },
+            {
+                test:/\.png$/,
+                use: [
+                    { loader: 'file-loader', options: { name: 'assets/[hash].[ext]' } }
+                ]
+            },
+            {
+                test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                use: [
+                    { loader: 'file-loader', options: { name: 'assets/[hash].[ext]' } }
+                ]
+            }
         ]
     },
     plugins: [
-        // so react will build in 'production mode'
-        // https://github.com/webpack/webpack/issues/868
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"' + NODE_ENV + '"'
+        new webpack.DefinePlugin({ // so react will build in 'production mode'
+            'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
         }),
-        new webpack.optimize.DedupePlugin(),
         // drop other locales from moment for size
         new webpack.ContextReplacementPlugin(/moment\/locale$/, /en|es/),
+
         new HtmlWebpackPlugin({
             chunks: ['client'],
             title: 'App',
@@ -45,10 +62,9 @@ var config = {
         })
     ],
     resolve: {
-        root: [path.join(__dirname, 'src/client')],
-        extensions: ["", ".webpack.js", ".web.js", ".js", ".scss"],
+        extensions: [".js", ".json", ".scss"],
         alias: {
-            //none, at the moment.
+            // force single react version, I forgot what broken library made me do this
             react: path.join(__dirname, 'node_modules/react')
         }
     },
@@ -59,9 +75,7 @@ var config = {
 
 if (NODE_ENV === 'production') {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false
-        }
+        sourceMap: true
     }));
 
     config.plugins.push(new CompressionPlugin({
