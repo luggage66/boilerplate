@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, asReference } from 'mobx';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { QueryRunner } from '../queryRunner';
 import bluebird from 'bluebird';
@@ -36,7 +36,7 @@ class DataComponentContainer extends React.Component
     };
 
     @observable dataLoaded = false;
-    @observable data = asReference(null); // I don't care what is inside here.
+    @observable.ref data = null; // I don't care what is inside here.
 
     componentDidMount() {
         this.loadData(this.props.params);
@@ -112,7 +112,7 @@ function makeDataWrapperComponent(Component) {
     class DataWrapperComponent extends React.Component
     {
         @observable dataLoaded = false;
-        @observable data = asReference(null); // I don't care what is inside here.
+        @observable.ref data = null; // I don't care what is inside here.
 
         // constructor(props, context) {
         //     super(props, context);

@@ -27,9 +27,9 @@ export default class ApplicationState {
         this.pendingRoute = new ActiveRoute(newRoute);
         //this.pendingRoute = new QueryRunner(newRoute.route, newRoute.state);
 
-        when(() => this.pendingRoute.ready, () => {
+        when('pendingRoute ready', () => this.pendingRoute.ready, action('Swap Pages', () => {
             this.currentRoute = this.pendingRoute;
             this.pendingRoute = null;
-        });
+        }));
     }
 }

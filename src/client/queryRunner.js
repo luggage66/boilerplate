@@ -2,7 +2,6 @@ import {
     observable,
     extendObservable,
     reaction,
-    asReference,
     autorun,
     toJS,
     action,
@@ -46,26 +45,28 @@ export class QueryRunner {
         this.startReacting();
 
         when(
+            'queries loaded',
             // When all required queries are done loading..
             () => !Object.keys(this.queries).some(key => this.data[key].isLoading),
-            () => {
+            action('done loading', () => {
                 this.dataLoaded = true;
-            }
+            })
         );
     }
 
+    @action
     startReacting() {
         let queries = this.queries;
         let variables = this.variables;
         let keys = Object.keys(queries);
         let data = this.data = keys.reduce((prev, key) => extendObservable(prev, {
             [key]: {
-                value: asReference(null),
+                value: observable.ref(null),
                 isLoading: false,
-                promise: asReference(null),
-                reactionDisposer: asReference(null),
+                promise: observable.ref(null),
+                reactionDisposer: observable.ref(null),
                 failed: false,
-                error: asReference(null),
+                error: observable.ref(null),
                 retries: 0
             }
         }), {});
@@ -87,7 +88,7 @@ export class QueryRunner {
                     promise = bluebird.reject(ex);
                 }
 
-                runInAction(() => {
+                runInAction('load data', () => {
                     promise = bluebird.resolve(promise); //promse to bluebird promise for .cancel()
 
                     if (dataState.promise) {
@@ -100,7 +101,7 @@ export class QueryRunner {
                 return promise;
             }, (promise) => {
 
-                promise.then(action(result => {
+                promise.then(action('data loaded', result => {
                     dataState.value = result;
                     dataState.isLoading = false;
                     dataState.failed = false;
@@ -121,8 +122,9 @@ export class QueryRunner {
         }
     }
 
+    @action
     setVariables(newVariables) {
-        runInAction(() => Object.assign(this.variables, newVariables));
+         Object.assign(this.variables, newVariables);
     }
 
     dispose() {

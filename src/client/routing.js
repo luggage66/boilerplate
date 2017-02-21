@@ -1,3 +1,4 @@
+/* globals window */
 import React from 'react';
 import RouteRecognizer from 'route-recognizer';
 import createHistory from 'history/createBrowserHistory';
