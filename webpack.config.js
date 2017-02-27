@@ -5,10 +5,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || 8081;
 
 var config = {
     entry: {
-        client: './src/client/boot'
+        client: [
+            `webpack-hot-middleware/client?path=http://localhost:${PORT}/__webpack_hmr`,
+            'webpack/hot/only-dev-server',
+            './src/client/boot'
+        ]
     },
     output: {
         // Make sure to use [name] or [id] in output.filename
@@ -48,6 +53,9 @@ var config = {
         ]
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({ // so react will build in 'production mode'
             'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
         }),

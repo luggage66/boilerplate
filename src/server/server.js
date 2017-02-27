@@ -2,13 +2,34 @@
 import http from 'http';
 import path from 'path';
 import express from 'express';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackConfig from '../../webpack.config';
+import webpack from 'webpack';
 import api from './api';
 
 let app = express();
 let server = http.Server(app);
 
-//serve static files
-app.use('/', express.static(path.join(__dirname, "../../static")));
+const webpackCompiler = webpack(webpackConfig);
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+if (NODE_ENV === 'development')
+{
+    app.use(webpackDevMiddleware(webpackCompiler, {
+        publicPath: webpackConfig.output.publicPath,
+        stats: {
+            colors: true
+        }
+    }));
+    app.use(webpackHotMiddleware(webpackCompiler, {
+        path: "/__webpack_hmr"
+    }));
+}
+else { // production, serve static files
+    app.use('/', express.static(path.join(__dirname, "../../static")));
+}
 
 //'mount' our api.
 app.use('/api/v1', api);
