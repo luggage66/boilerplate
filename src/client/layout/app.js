@@ -7,7 +7,7 @@ import Header from './header';
 
 let DevTools;
 if (process.env.NODE_ENV === 'development') {
-    DevTools = require('mobx-react-devtools').default;
+    //DevTools = require('mobx-react-devtools').default;
 }
 
 @observer

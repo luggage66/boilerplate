@@ -30,6 +30,15 @@ router.get('/users/:id', apiFunction(req => {
     };
 }));
 
+router.get('/userGroups', apiFunction(req => {
+    return [
+        { id: 1, name: 'User Group 1' },
+        { id: 2, name: 'User Group 2' },
+        { id: 3, name: 'User Group 3' },
+        { id: 4, name: 'User Group 4' }
+    ];
+}));
+
 //anything else is uncivilized.
 router.use(function(req, res, next) {
     return next(new RoutingError());

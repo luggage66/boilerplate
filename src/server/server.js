@@ -1,3 +1,4 @@
+/* globals __dirname, process, console */
 import http from 'http';
 import path from 'path';
 import express from 'express';
