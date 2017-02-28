@@ -2,8 +2,6 @@ import React from 'react';
 import styles from '../styles';
 import { Link } from '../routing';
 
-console.log(styles);
-
 export default class Header extends React.Component
 {
     constructor(props, context) {

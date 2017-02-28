@@ -1,18 +1,17 @@
 import Home from './home';
 import ViewUser from './viewUser';
-import TestDataLoading from './testDataLoading';
 
 const routes = [
     {
         name: 'home',
         path: '',
-        component: Home,
-        queries: {}
+        component: Home
     },
-    ViewUser,
-    TestDataLoading
+    {
+        name: 'viewUser',
+        path: 'users/:id',
+        component: ViewUser
+    }
 ];
-
-console.log(routes);
 
 export { routes };

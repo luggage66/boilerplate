@@ -1,17 +1,15 @@
 import React from 'react';
-import { observable, action, when } from 'mobx';
+import { observable, action, runInAction, computed } from 'mobx';
 import { initializeRouter, getRouteConfigFromName } from './routing';
-import { QueryRunner } from './queryRunner';
-import { ActiveRoute } from './route';
 
 export default class ApplicationState {
-    @observable.ref currentRoute = {
+    @observable.shallow currentRoute = {
         route: {
             component: function DummyRoute() { return <div>Dummy Loading Route</div>; },
         },
         state: {}
     };
-    @observable.ref pendingRoute = null;
+    @observable.shallow pendingRoute = null;
 
     constructor() {
         //listen for navigation
@@ -20,16 +18,34 @@ export default class ApplicationState {
         });
     }
 
+    @computed
+    get isPageLoading() {
+        return Boolean(this.pendingRoute);
+    }
+
+    /* newRoute = {
+        route: { name: "", component: SomeComponent }, // from the route config
+        state: { id: 123, tab: "details" } // the params parsed from the url + queryString (mixed)
+    } */
     @action
-    handleRouteChange(newRoute) {
-        console.log(newRoute);
+    async handleRouteChange(newRoute) {
+        // set a pending route. We'll swap it to currentRoute AFTER it
+        // has it's minimum data loaded
+        this.pendingRoute = {
+            ...newRoute,
+            data: undefined //will be filled in after data loads
+        };
 
-        this.pendingRoute = new ActiveRoute(newRoute);
-        //this.pendingRoute = new QueryRunner(newRoute.route, newRoute.state);
+        // use the loadData() static function on the route's component
+        let data;
+        if (newRoute.route.component.loadData) {
+            data = await newRoute.route.component.loadData(newRoute.state);
+        }
 
-        when('pendingRoute ready', () => this.pendingRoute.ready, action('Swap Pages', () => {
+        runInAction('mount page', () => {
+            this.pendingRoute.data = data;
             this.currentRoute = this.pendingRoute;
             this.pendingRoute = null;
-        }));
+        });
     }
 }

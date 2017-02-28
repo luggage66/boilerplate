@@ -3,25 +3,30 @@ import { observable } from 'mobx';
 import { Link } from '../routing';
 import UserGroupPicker from '../editors/userGroupPicker';
 
-class ViewUser extends React.Component
+export default class ViewUser extends React.Component
 {
+    // the router / data-loader looks for a static loadData() function
+    static async loadData({ id }) {
+        return {
+            user: await fetch(`/api/v1/users/${id}`).then(res => res.json()),
+            allowedUserGroups: await UserGroupPicker.queries.allUserGroups()
+        };
+    }
+
+    // this.props will contain the return value of ViewUser.loadData() + route data
+    // this.props = {
+    //    user: { name: "...", ... },
+    //    allowedUserGroups: [ {}, {}, ... ],
+    //    route: { route: { path: "", component: Component }, state: { id: 123} }
+    // }
     render() {
         return <div>
-            View User: {this.props.user.name}
-            <UserGroupPicker value={this.props.user.group} />
+            <div>
+                User Name: {this.props.user.name}
+            </div>
+            <div>
+                Group: <UserGroupPicker value={this.props.user.group} allowedUserGroups={this.props.allowedUserGroups} />
+            </div>
         </div>;
     }
 }
-
-export default {
-    name: 'viewUser',
-    path: 'users/:id',
-    defaultParams: {
-        id: null
-    },
-    queries: {
-        user: ({ id }) => fetch(`/api/v1/users/${id}`).then(res => res.json()),
-        userGroups: UserGroupPicker.queries.allUserGroups
-    },
-    component: ViewUser
-};

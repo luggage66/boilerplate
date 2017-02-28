@@ -7,6 +7,9 @@
     "env": {
         "es6": true
     },
+    "globals": {
+        fetch: true
+    },
     "rules": {
         "no-unused-vars": [ 1, { "args": "none" }],
         "semi": [2, "always"],
