@@ -1,6 +1,6 @@
 import React from 'react';
 import { observable, action, runInAction, computed } from 'mobx';
-import { initializeRouter, getRouteConfigFromName } from './routing';
+import { initializeRouter } from './routing';
 
 export default class ApplicationState {
     @observable.shallow currentRoute = {

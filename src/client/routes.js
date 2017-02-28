@@ -1,7 +1,7 @@
-import Home from './home';
-import ViewUser from './viewUser';
+import Home from './pages/home';
+import ViewUser from './pages/viewUser';
 
-const routes = [
+export default [
     {
         name: 'home',
         path: '',
@@ -13,5 +13,3 @@ const routes = [
         component: ViewUser
     }
 ];
-
-export { routes };

@@ -2,6 +2,7 @@
 import http from 'http';
 import path from 'path';
 import express from 'express';
+import html5HistoryFallback from 'connect-history-api-fallback';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config';
@@ -15,13 +16,22 @@ const webpackCompiler = webpack(webpackConfig);
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+//'mount' our api first.
+app.use('/api/v1', api);
+
+// This re-writes most urls to the root for SPA functionality to work
+app.use(html5HistoryFallback({
+  index: '/index.html'
+}));
+
 if (NODE_ENV === 'development')
 {
     app.use(webpackDevMiddleware(webpackCompiler, {
         publicPath: webpackConfig.output.publicPath,
         stats: {
             colors: true
-        }
+        },
+        historyApiFallback: true
     }));
     app.use(webpackHotMiddleware(webpackCompiler, {
         path: "/__webpack_hmr"
@@ -30,14 +40,6 @@ if (NODE_ENV === 'development')
 else { // production, serve static files
     app.use('/', express.static(path.join(__dirname, "../../static")));
 }
-
-//'mount' our api.
-app.use('/api/v1', api);
-
-// all other urls, just pretend it was a request to / and let the client deal with it (SPA)
-app.use(function(req, res, next) {
-    res.sendfile(path.join(__dirname, "../../static/index.html"));
-});
 
 server.on('clientError', (err, socket) => {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
