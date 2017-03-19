@@ -1,5 +1,5 @@
 /* globals window */
-import React from 'react';
+import * as React from 'react';
 import RouteRecognizer from 'route-recognizer';
 import createHistory from 'history/createBrowserHistory';
 
@@ -34,8 +34,14 @@ export function getUrl(routeName, params) {
     return router.generate(routeName, params);
 }
 
+export interface LinkProps {
+    route: any,
+    params?: any,
+    className?: string
+}
+
 // Use this link component for all internal links.
-export class Link extends React.Component {
+export class Link extends React.Component<LinkProps, {}> {
     static propTypes = {
         route: React.PropTypes.string.isRequired,
         params: React.PropTypes.object,
@@ -65,7 +71,7 @@ export class Link extends React.Component {
 // Never call history.push() or history.replace() directly, this function does that.
 // can take a url (e.g. "/users/123"),
 // or an object like: { route: "viewUser", params: { id: 123 } }
-export function pushHistoryState(urlOrState, { replace } = {}) {
+export function pushHistoryState(urlOrState, { replace = false } = {}) {
     let state;
     let url;
 

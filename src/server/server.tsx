@@ -1,16 +1,16 @@
 /* globals __dirname, process, console */
-import http from 'http';
-import path from 'path';
-import express from 'express';
+import * as http from 'http';
+import * as path from 'path';
+import * as express from 'express';
 import html5HistoryFallback from 'connect-history-api-fallback';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../webpack.config';
+import * as webpackConfig from '../../webpack.config';
 import webpack from 'webpack';
 import api from './api';
 
 let app = express();
-let server = http.Server(app);
+let server = http.createServer(app);
 
 const webpackCompiler = webpack(webpackConfig);
 

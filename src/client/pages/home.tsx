@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { Link } from '../routing';
 
-export default class HomePage extends React.Component
+export default class HomePage extends React.Component<void, void>
 {
     render() {
         return <div>

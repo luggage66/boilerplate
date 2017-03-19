@@ -1,6 +1,6 @@
 /* globals document, window, process */
-import React from 'react';
-import ReactDom from 'react-dom';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
 import App from './layout/app';
 import ApplicationState from './applicationState';
 import { useStrict } from 'mobx';
@@ -15,5 +15,5 @@ reactContainer.id = 'app-react-container';
 document.body.appendChild(reactContainer);
 
 //mounty mounty
-let appState = window.app = new ApplicationState();
+let appState = (window as any).app = new ApplicationState();
 ReactDom.render(<App appState={appState} />, reactContainer);

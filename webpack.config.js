@@ -26,6 +26,11 @@ var config = {
     module: {
         rules: [
             {
+                 test: /\.tsx?$/,
+                 exclude: [ /node_modules/ ], // only babel-ize our own code
+                 use: [ 'awesome-typescript-loader' ]
+             },
+            {
                 test: /\.js$/,
                 exclude: [ /node_modules/ ], // only babel-ize our own code
                 use: ['babel-loader' ]
@@ -70,7 +75,7 @@ var config = {
         })
     ],
     resolve: {
-        extensions: [".js", ".json", ".scss"],
+        extensions: [".js", ".json", ".scss", ".ts", ".tsx"],
         alias: {
             // force single react version, I forgot what broken library made me do this
             react: path.join(__dirname, 'node_modules/react')

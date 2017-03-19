@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import { observable } from 'mobx';
 import { Link } from '../routing';
 import UserGroupPicker from '../editors/userGroupPicker';
 
-export default class ViewUser extends React.Component
+export default class ViewUser extends React.Component<{ user: any, allowedUserGroups: any[] }, void>
 {
     // the router / data-loader looks for a static loadData() function
     static async loadData({ id }) {
@@ -25,7 +25,7 @@ export default class ViewUser extends React.Component
                 User Name: {this.props.user.name}
             </div>
             <div>
-                Group: <UserGroupPicker value={this.props.user.group} allowedUserGroups={this.props.allowedUserGroups} />
+                Group: <UserGroupPicker value={this.props.user.group} allowedUserGroups={this.props.allowedUserGroups} onChange={() => undefined} />
             </div>
         </div>;
     }

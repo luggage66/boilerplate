@@ -1,5 +1,5 @@
 /* globals require process */
-import React from 'react';
+import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Link } from '../routing';
 import styles from '../styles';
@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 @observer
-export default class App extends React.Component
+export default class App extends React.Component<{ appState: any }, {}>
 {
     constructor(props) {
         super(props);

@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-export default class UserGroupPicker extends React.Component
+export default class UserGroupPicker extends React.Component<{ value: string, allowedUserGroups: any[], onChange(any): void }, {}>
 {
     static queries = {
         allUserGroups: () => fetch(`/api/v1/userGroups`).then(res => res.json())

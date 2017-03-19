@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import styles from '../styles';
 import { Link } from '../routing';
 
-export default class Header extends React.Component
+export default class Header extends React.Component<{}, {}>
 {
     constructor(props, context) {
         super(props, context);

@@ -1,18 +1,19 @@
 class TypedError extends Error
 {
-    constructor(message) {
+    status = 500;
+    message: string;
+
+    constructor(message? : string) {
         super();
 
         this.stack = new Error().stack;
         this.message = this.constructor.name + ': ' + message;
-        this.status = 500;
     }
 }
 
 export class InvalidOperationError extends TypedError {
     constructor(message) {
         super(message);
-        this.status = 400;
     }
 }
 
@@ -32,7 +33,7 @@ export class AccessError extends TypedError {
 }
 
 export class RoutingError extends TypedError {
-    constructor(message) {
+    constructor(message? : string) {
         super(message);
         this.status = 404;
     }
