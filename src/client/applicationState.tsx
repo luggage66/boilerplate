@@ -12,7 +12,7 @@ export default class ApplicationState {
     @observable.shallow pendingRoute = null;
 
     constructor() {
-        //listen for navigation
+        // listen for navigation
         initializeRouter((location, action) => {
             this.handleRouteChange(location);
         });
@@ -33,7 +33,7 @@ export default class ApplicationState {
         // has it's minimum data loaded
         this.pendingRoute = {
             ...newRoute,
-            data: undefined //will be filled in after data loads
+            data: undefined // will be filled in after data loads
         };
 
         // use the loadData() static function on the route's component

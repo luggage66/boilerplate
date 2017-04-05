@@ -6,9 +6,9 @@ import styles from '../styles';
 import Header from './header';
 
 // mobx-react-devtools component
-let DevTools;
+let DevTools; // tslint:disable-line:variable-name
 if (process.env.NODE_ENV === 'development') {
-    DevTools = require('mobx-react-devtools').default;
+    DevTools = require('mobx-react-devtools').default; // tslint:disable-line:no-var-requires
 }
 
 @observer
@@ -19,7 +19,7 @@ export default class App extends React.Component<{ appState: any }, {}>
     }
 
     render() {
-        let { currentRoute } = this.props.appState;
+        const { currentRoute } = this.props.appState;
 
         return <div className={styles.app}>
             { DevTools && <DevTools /> }

@@ -6,7 +6,7 @@ export default router;
 
 // handle common tasks for all api routes
 function apiFunction(innerFunction) {
-    return function(req, res, next) {
+    return (req, res, next) => {
         Promise.resolve(innerFunction(req))
         .then(result => {
             res.json(result);
@@ -18,14 +18,14 @@ function apiFunction(innerFunction) {
     };
 }
 
-//sample route
+// sample route
 router.get('/users/:id', apiFunction(req => {
     let { id } = req.params;
 
     id = Number(id);
 
     return {
-        id: id,
+        id,
         name: `User #${id}`
     };
 }));
@@ -39,7 +39,7 @@ router.get('/userGroups', apiFunction(req => {
     ];
 }));
 
-//anything else is uncivilized.
-router.use(function(req, res, next) {
+// anything else is uncivilized.
+router.use((req, res, next) => {
     return next(new RoutingError());
 });

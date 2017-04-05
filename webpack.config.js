@@ -27,13 +27,10 @@ var config = {
         rules: [
             {
                  test: /\.tsx?$/,
-                 exclude: [ /node_modules/ ], // only babel-ize our own code
-                 use: [ 'awesome-typescript-loader' ]
-             },
-            {
-                test: /\.js$/,
-                exclude: [ /node_modules/ ], // only babel-ize our own code
-                use: ['babel-loader' ]
+                 exclude: [ /node_modules/ ],
+                 use: [ 
+                     { loader: 'awesome-typescript-loader', options: { configFileName: 'src/client/tsconfig.json'} }
+                 ]
             },
             {
                 test: /\.scss$/,

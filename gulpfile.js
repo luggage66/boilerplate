@@ -2,18 +2,19 @@
 "use strict";
 const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const spawn = require('child_process').spawn;
-const changed = require('gulp-changed');
 const del = require('del');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const runSequence = require('run-sequence');
+const ts = require('gulp-typescript');
 // const gzip = require('gulp-gzip');
+
+const tsServerProject = ts.createProject('src/server/tsconfig.json');
 
 const paths = {
     src: 'src/@(server|shared)/**/*.{js,jsx}',
-    dest: 'lib',
+    destServer: 'lib/server',
     clientDest: 'static'
 };
 
@@ -43,12 +44,11 @@ gulp.task('build-all', ['build-server', 'build-client']);
 
 // build server
 gulp.task('build-server', () => {
-    return gulp.src(paths.src)
-        .pipe(changed(paths.dest))
+    return tsServerProject.src()
         .pipe(sourcemaps.init())
-        .pipe(babel())
+        .pipe(tsServerProject())
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.dest));
+        .pipe(gulp.dest(paths.destServer));
 });
 
 gulp.task('build-client', () => {

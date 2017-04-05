@@ -2,12 +2,14 @@
 import * as http from 'http';
 import * as path from 'path';
 import * as express from 'express';
-import html5HistoryFallback from 'connect-history-api-fallback';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import * as webpackConfig from '../../webpack.config';
-import webpack from 'webpack';
+import * as html5HistoryFallback from 'connect-history-api-fallback';
+import * as webpackDevMiddleware from 'webpack-dev-middleware';
+import * as webpackHotMiddleware from 'webpack-hot-middleware';
+import * as webpack from 'webpack';
+
 import api from './api';
+
+const webpackConfig = require('../../webpack.config');
 
 let app = express();
 let server = http.createServer(app);

@@ -10,10 +10,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // make a root element to mount the app into
-let reactContainer = document.createElement('div');
+const reactContainer = document.createElement('div');
 reactContainer.id = 'app-react-container';
 document.body.appendChild(reactContainer);
 
-//mounty mounty
-let appState = (window as any).app = new ApplicationState();
+// mounty mounty
+const appState = (window as any).app = new ApplicationState();
 ReactDom.render(<App appState={appState} />, reactContainer);

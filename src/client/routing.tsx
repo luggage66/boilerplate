@@ -5,13 +5,13 @@ import createHistory from 'history/createBrowserHistory';
 
 import routes from './routes';
 
-let router = new RouteRecognizer();
-let history = createHistory();
+const router = new RouteRecognizer();
+const history = createHistory();
 
 // for each route, configure it in route-recognizer.
 // pass our route object into "handler", so we get it back when the url is parsed
 // and use our route.name with route-recognizer's named routes feature.
-for (let route of routes) {
+for (const route of routes) {
     router.add([{ path: route.path, handler: route }], { as: route.name});
 }
 
@@ -21,7 +21,7 @@ export function getRouteConfigFromName(routeName) {
 
 export function parseUrl(url) {
     // [0] because we'll deal with nested routes later.
-    let result = router.recognize(url)[0];
+    const result = router.recognize(url)[0];
 
     return {
         route: result.handler.name,
@@ -35,9 +35,9 @@ export function getUrl(routeName, params) {
 }
 
 export interface LinkProps {
-    route: any,
-    params?: any,
-    className?: string
+    route: any;
+    params?: any;
+    className?: string;
 }
 
 // Use this link component for all internal links.
@@ -45,7 +45,7 @@ export class Link extends React.Component<LinkProps, {}> {
     static propTypes = {
         route: React.PropTypes.string.isRequired,
         params: React.PropTypes.object,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -55,13 +55,13 @@ export class Link extends React.Component<LinkProps, {}> {
 
     handleClick(event) {
         event.preventDefault();
-        let { route, params } = this.props;
+        const { route, params } = this.props;
         pushHistoryState({ route, params });
     }
 
     render() {
-        let { route, params, children, ...otherProps } = this.props;
-        let url = getUrl(route, params);
+        const { route, params, children, ...otherProps } = this.props;
+        const url = getUrl(route, params);
 
         return <a href={url} {...otherProps} onClick={this.handleClick}>{children}</a>;
     }
@@ -91,17 +91,27 @@ export function pushHistoryState(urlOrState, { replace = false } = {}) {
 // the callback you want called on route changes.
 export function initializeRouter(listenCallback) {
     history.listen((location, action) => {
-        let route = getRouteConfigFromName(location.state.route);
+        const route = getRouteConfigFromName(location.state.route);
         listenCallback({
             location: {
                 path: location.pathname,
                 query: location.search
             },
             state: location.state.params,
-            route: route
+            route
         });
     });
 
     // get started with the current URL
     pushHistoryState(window.location.pathname + window.location.search, { replace: true });
+}
+
+export interface IPageComponentProps {
+    route: {};
+}
+
+interface IRouteConfig {
+    name: string;
+    path: string;
+    viewComponent: React.ComponentClass<IPageComponentProps>;
 }

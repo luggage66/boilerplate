@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Link } from '../routing';
+import { IPageComponentProps } from '../routing';
 
-export default class HomePage extends React.Component<void, void>
+export default class HomePage extends React.Component<IPageComponentProps, void>
 {
     render() {
         return <div>
