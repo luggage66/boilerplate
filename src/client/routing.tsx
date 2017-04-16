@@ -8,6 +8,20 @@ import routes from './routes';
 const router = new RouteRecognizer();
 const history = createHistory();
 
+// a route as-configured
+interface IRouteConfig {
+    name: string;
+    path: string;
+    viewComponent: React.ComponentClass<IPageComponentProps>;
+}
+
+// represents a route that is navigated to / navigating to
+interface IActiveRoute {
+    config: IRouteConfig;
+    currentVariables: any;
+    setVariables(newValues): void;
+}
+
 // for each route, configure it in route-recognizer.
 // pass our route object into "handler", so we get it back when the url is parsed
 // and use our route.name with route-recognizer's named routes feature.
@@ -34,9 +48,13 @@ export function getUrl(routeName, params) {
     return router.generate(routeName, params);
 }
 
-export interface LinkProps {
+// minimum data to navigate
+export interface IRouteLink {
     route: any;
     params?: any;
+}
+
+interface LinkProps extends IRouteLink {
     className?: string;
 }
 
@@ -49,12 +67,10 @@ export class Link extends React.Component<LinkProps, {}> {
 
     constructor(props) {
         super(props);
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(event) {
-        event.preventDefault();
+    handleClick = (evt) => {
+        evt.preventDefault();
         const { route, params } = this.props;
         pushHistoryState({ route, params });
     }
@@ -71,9 +87,9 @@ export class Link extends React.Component<LinkProps, {}> {
 // Never call history.push() or history.replace() directly, this function does that.
 // can take a url (e.g. "/users/123"),
 // or an object like: { route: "viewUser", params: { id: 123 } }
-export function pushHistoryState(urlOrState, { replace = false } = {}) {
-    let state;
-    let url;
+export function pushHistoryState(urlOrState: string | IRouteLink, { replace = false } = {}) {
+    let state: IRouteLink;
+    let url: string;
 
     if (typeof(urlOrState) === 'string') {
         state = parseUrl(urlOrState);
@@ -108,10 +124,4 @@ export function initializeRouter(listenCallback) {
 
 export interface IPageComponentProps {
     route: {};
-}
-
-interface IRouteConfig {
-    name: string;
-    path: string;
-    viewComponent: React.ComponentClass<IPageComponentProps>;
 }
