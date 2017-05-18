@@ -1,7 +1,6 @@
 import Home from './pages/home';
 import ViewUser from './pages/viewUser';
-
-// react components that I mouth through the router accept certain props
+import { IRouteConfig } from './routing';
 
 export default [
     {
@@ -14,4 +13,4 @@ export default [
         path: 'users/:id',
         component: ViewUser
     }
-];
+] as IRouteConfig[];

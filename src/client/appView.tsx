@@ -1,18 +1,19 @@
 /* globals require process */
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Link } from '../routing';
-import styles from '../styles';
-import Header from './header';
+import { Link } from './routing';
+import styles from './styles';
+import Header from './components/header';
+import ApplicationState from './applicationState';
 
 // mobx-react-devtools component
-let DevTools; // tslint:disable-line:variable-name
+let MobxDevTools; // tslint:disable-line:variable-name
 if (process.env.NODE_ENV === 'development') {
-    DevTools = require('mobx-react-devtools').default; // tslint:disable-line:no-var-requires
+    MobxDevTools = require('mobx-react-devtools').default; // tslint:disable-line:no-var-requires
 }
 
 @observer
-export default class App extends React.Component<{ appState: any }, {}>
+export default class App extends React.Component<{ appState: ApplicationState }, never>
 {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ export default class App extends React.Component<{ appState: any }, {}>
         const { currentRoute } = this.props.appState;
 
         return <div className={styles.app}>
-            { DevTools && <DevTools /> }
+            { MobxDevTools && <MobxDevTools /> }
             <Header />
             <div className={styles.appBodyContainer}>
                 <currentRoute.route.component route={currentRoute} {...currentRoute.data} />

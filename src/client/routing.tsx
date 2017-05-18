@@ -8,19 +8,33 @@ import routes from './routes';
 const router = new RouteRecognizer();
 const history = createHistory();
 
-// a route as-configured
-interface IRouteConfig {
-    name: string;
-    path: string;
-    viewComponent: React.ComponentClass<IPageComponentProps>;
+export interface IPageComponentProps {
+    route: {};
 }
 
-// represents a route that is navigated to / navigating to
-interface IActiveRoute {
-    config: IRouteConfig;
-    currentVariables: any;
-    setVariables(newValues): void;
+// A react component that it mounted by the router. It accepts route-related props
+interface PageComponent extends React.ComponentClass<IPageComponentProps> {
+    loadData?(state: any): PromiseLike<{}>;
 }
+
+// a route as-configured
+export interface IRouteConfig {
+    name: string;
+    path: string;
+    component: PageComponent;
+}
+
+export interface IActiveRoute {
+    location: {
+        path: string;
+        query: string;
+    };
+    state: {};
+    route: IRouteConfig;
+    data: {};
+}
+
+export type RouteChangeListener = (newRoute: IActiveRoute) => void;
 
 // for each route, configure it in route-recognizer.
 // pass our route object into "handler", so we get it back when the url is parsed
@@ -50,37 +64,8 @@ export function getUrl(routeName, params) {
 
 // minimum data to navigate
 export interface IRouteLink {
-    route: any;
+    route: string; // route name
     params?: any;
-}
-
-interface LinkProps extends IRouteLink {
-    className?: string;
-}
-
-// Use this link component for all internal links.
-export class Link extends React.Component<LinkProps, {}> {
-    static propTypes = {
-        route: React.PropTypes.string.isRequired,
-        params: React.PropTypes.object,
-    };
-
-    constructor(props) {
-        super(props);
-    }
-
-    handleClick = (evt) => {
-        evt.preventDefault();
-        const { route, params } = this.props;
-        pushHistoryState({ route, params });
-    }
-
-    render() {
-        const { route, params, children, ...otherProps } = this.props;
-        const url = getUrl(route, params);
-
-        return <a href={url} {...otherProps} onClick={this.handleClick}>{children}</a>;
-    }
 }
 
 // Update the app url / current route
@@ -105,7 +90,7 @@ export function pushHistoryState(urlOrState: string | IRouteLink, { replace = fa
 
 // The app needs to call this once to get things started, passing in
 // the callback you want called on route changes.
-export function initializeRouter(listenCallback) {
+export function initializeRouter(listenCallback: RouteChangeListener) {
     history.listen((location, action) => {
         const route = getRouteConfigFromName(location.state.route);
         listenCallback({
@@ -114,7 +99,8 @@ export function initializeRouter(listenCallback) {
                 query: location.search
             },
             state: location.state.params,
-            route
+            route,
+            data: {}
         });
     });
 
@@ -122,6 +108,4 @@ export function initializeRouter(listenCallback) {
     pushHistoryState(window.location.pathname + window.location.search, { replace: true });
 }
 
-export interface IPageComponentProps {
-    route: {};
-}
+export { Link } from './components/link';

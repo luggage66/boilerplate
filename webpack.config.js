@@ -16,8 +16,6 @@ var config = {
         ]
     },
     output: {
-        // Make sure to use [name] or [id] in output.filename
-        //  when using multiple entry points
         path: path.join(__dirname, 'static'),
         filename: "assets/entry.[name].[hash].js",
         chunkFilename: "assets/dependency.[id].[chunkhash].js",

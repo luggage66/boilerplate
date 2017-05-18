@@ -3,7 +3,7 @@ import * as React from 'react';
 export default class UserGroupPicker extends React.Component<{ value: string, allowedUserGroups: any[], onChange(newValue: any): void }, {}>
 {
     static queries = {
-        allUserGroups: () => fetch(`/api/v1/userGroups`).then(res => res.json())
+        allUserGroups: () => fetch(`/api/v1/userGroups`).then((res: Response) => res.json())
     };
 
     render() {

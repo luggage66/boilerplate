@@ -1,7 +1,7 @@
 /* globals document, window, process */
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import App from './layout/app';
+import AppView from './appView';
 import ApplicationState from './applicationState';
 import { useStrict } from 'mobx';
 
@@ -16,4 +16,4 @@ document.body.appendChild(reactContainer);
 
 // mounty mounty
 const appState = (window as any).app = new ApplicationState();
-ReactDom.render(<App appState={appState} />, reactContainer);
+ReactDom.render(<AppView appState={appState} />, reactContainer);
