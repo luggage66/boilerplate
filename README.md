@@ -2,7 +2,7 @@ A minimal starter for an SPA (single page app) using the following technology:
 
 * react - A popular view 'engine'.
 * webpack - A Javascript (and other files) bundler for turning a bunch of loose (but organized) JS files into a single file, ready for the browser.
-* babel - A Javascript transpiler (use the latest JS on yesterday's web browser)
+* typescript
 * gulp - A task runner. Just a javascript alternative to a shell script, really.
 
 ## What does this contain?
@@ -31,19 +31,11 @@ npm install
 
 # in one terminal, run:
 gulp dev-server
-
-# this will build the code, start the server, and
-# watch for files changes (and re-build/restart when they change).
-
-# in another run:
-webpack --watch
-
-# This will build and bundle the client files (and re-build when they change)
 ```
 
 ### Commands
 
-* `gulp dev-server` - build / watch / rebuild loop for the server
+* `gulp dev-server` - build / watch / rebuild loop for the server (and client when in developmeent mode)
 * `webpack --watch` - Webpack build/watch/rebuild loop
 
 
@@ -58,7 +50,3 @@ webpack --watch
 I use the node.js convention of the NODE_ENV environment variable, so set that if you want to enable production optimizations (like minimizing)
 
 `NODE_ENV=production webpack` - build a client w/ minimizing and compression
-
-## TODO:
-
-* Make a single-terminal workflow, using webpack-dev-middleware
