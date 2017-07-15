@@ -6,19 +6,24 @@ import * as html5HistoryFallback from 'connect-history-api-fallback';
 import * as webpackDevMiddleware from 'webpack-dev-middleware';
 import * as webpackHotMiddleware from 'webpack-hot-middleware';
 import * as webpack from 'webpack';
+import { createLogger } from 'bunyan';
+
+const log = createLogger({ name: 'boilerplate '});
 
 import api from './api';
 
+// imported this way so that Typescript doesn't re-root the project
+// tslint:disable-next-line:no-var-requires
 const webpackConfig = require('../../webpack.config');
 
-let app = express();
-let server = http.createServer(app);
+const app = express();
+const server = http.createServer(app);
 
 const webpackCompiler = webpack(webpackConfig);
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-//'mount' our api first.
+// 'mount' our api first.
 app.use('/api/v1', api);
 
 // This re-writes most urls to the root for SPA functionality to work
@@ -47,8 +52,8 @@ server.on('clientError', (err, socket) => {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
 
-//and, finally, start listening for requests
+// and, finally, start listening for requests
 const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
-    console.log(`Express Server Listening on port: ${PORT}`);
+    log.info(`Express Server Listening on port: ${PORT}`);
 });
