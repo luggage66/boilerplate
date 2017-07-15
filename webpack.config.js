@@ -27,7 +27,7 @@ var config = {
                  test: /\.tsx?$/,
                  exclude: [ /node_modules/ ],
                  use: [ 
-                     { loader: 'awesome-typescript-loader', options: { configFileName: 'src/client/tsconfig.json'} }
+                     { loader: 'ts-loader', options: { configFileName: 'src/client/tsconfig.json'} }
                  ]
             },
             {

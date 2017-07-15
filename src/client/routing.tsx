@@ -21,7 +21,7 @@ interface PageComponent extends React.ComponentClass<IPageComponentProps> {
 export interface IRouteConfig {
     name: string;
     path: string;
-    component: PageComponent;
+    component: any;
 }
 
 export interface IActiveRoute {
@@ -52,7 +52,7 @@ export function parseUrl(url) {
     const result = router.recognize(url)[0];
 
     return {
-        route: result.handler.name,
+        route: (result.handler as IRouteConfig).name,
         params: result.params
     };
 }
