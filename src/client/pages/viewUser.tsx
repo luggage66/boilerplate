@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observable } from 'mobx';
 import { Link } from '../routing';
 import UserGroupPicker from '../components/editors/userGroupPicker';
+import StringEditor from '../components/editors/string';
 
 export default class ViewUser extends React.Component<{ user: any, allowedUserGroups: any[] }, void>
 {
@@ -16,7 +17,7 @@ export default class ViewUser extends React.Component<{ user: any, allowedUserGr
     render() {
         return <div>
             <div>
-                User Name: {this.props.user.name}
+                User Name: <StringEditor value={this.props.user.name} onChange={() => undefined} />
             </div>
             <div>
                 Group: <UserGroupPicker value={this.props.user.group} allowedUserGroups={this.props.allowedUserGroups} onChange={() => undefined} />
