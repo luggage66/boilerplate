@@ -1,6 +1,7 @@
 @import '~normalize.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 @import 'shadows';
+@import 'variables';
 
 // https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
 html {
@@ -15,9 +16,13 @@ body {
     font-weight: 400;
 }
 
-$headerHeight: 38px;
-$headerBackgroundColor: #03A9F4;
-$headerColor: white;
+.button {
+    background-color: $headerBackgroundColor;
+    color: white;
+    border-radius: 2px;
+    border: none;
+    @include card(2);
+}
 
 .app {
 }
@@ -60,4 +65,10 @@ $headerColor: white;
 .appBodyContainer {
     margin-top: $headerHeight;
     padding: 10px;
+}
+
+.box {
+    @include card(2);
+    border-radius: $mainRadius;
+    padding: $mainPadding;
 }
