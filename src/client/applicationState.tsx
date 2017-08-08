@@ -17,6 +17,7 @@ export default class ApplicationState {
         data: {}
     };
     @observable.shallow pendingRoute = null;
+    @observable showSidebar = true;
 
     constructor() {
         // listen for navigation
@@ -41,7 +42,7 @@ export default class ApplicationState {
             data: undefined // will be filled in after data loads
         };
 
-        // use the loadData() static function on the route's component
+         // use the loadData() static function on the route's component
         let data;
         if (newRoute.route.component.loadData) {
             data = await newRoute.route.component.loadData(newRoute.state);

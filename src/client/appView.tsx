@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Link } from './routing';
 import styles from './styles';
 import Header from './components/header';
+import Sidebar from './components/sidebar';
 import ApplicationState from './applicationState';
 
 // mobx-react-devtools component
@@ -25,6 +26,7 @@ export default class App extends React.Component<{ appState: ApplicationState },
         return <div className={styles.app}>
             { MobxDevTools && <MobxDevTools /> }
             <Header />
+            <Sidebar appState={this.props.appState} />
             <div className={styles.appBodyContainer}>
                 <currentRoute.route.component route={currentRoute} {...currentRoute.data} />
             </div>

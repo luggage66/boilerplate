@@ -69,7 +69,7 @@ var config = {
         })
     ],
     resolve: {
-        extensions: [".js", ".json", ".scss", ".ts", ".tsx"],
+        extensions: [".js", ".json", ".ts", ".tsx", ".scss"],
         alias: {
             // force single react version, I forgot what broken library made me do this
             react: path.join(__dirname, 'node_modules/react')
