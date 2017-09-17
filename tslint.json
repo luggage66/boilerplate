@@ -1,10 +1,10 @@
 {
     "extends": "tslint:recommended",
     "rules": {
-        "quotemark": [true, "jsx-double", "avoid-escape"],
+        "quotemark": [true, "single", "jsx-double", "avoid-escape"],
         "max-classes-per-file": [false, 1],
         "trailing-comma": [false],
-        "ordered-imports": [false],
+        "ordered-imports": false,
         "object-literal-sort-keys": false,
         "arrow-parens": [false, "ban-single-arg-parens"],
         "one-line": [ "check-open-brace", "check-whitespace" ],
