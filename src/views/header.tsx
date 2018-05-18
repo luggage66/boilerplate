@@ -5,6 +5,8 @@ import { currentUserContext } from '../contexts';
 @observer
 export default class HeaderView extends React.Component<{}, never> {
     render () {
-        return <header id="appHeader" />;
+        return <header id="appHeader">
+            Header
+        </header>;
     }
 }

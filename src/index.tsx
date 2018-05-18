@@ -1,4 +1,4 @@
-import './style.css';
+import './style/index.scss';
 import * as React from 'react';
 import * as ReactDOM  from 'react-dom';
 import AppView from './views';
