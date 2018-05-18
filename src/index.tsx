@@ -1,20 +1,9 @@
 import './style.css';
 import * as React from 'react';
-import { render }  from 'react-dom';
-import { Container, Col, Row, Nav, NavItem, NavLink, NavbarBrand, Form } from 'reactstrap';
+import * as ReactDOM  from 'react-dom';
+import AppView from './views';
+import AppStore from './stores/app';
 
-class AppView extends React.Component {
-    render() {
-        return <div>
-            <Nav>
-                <NavLink href="#">Home</NavLink>
-                <NavLink href="#">Options</NavLink>
-            </Nav>
-            <main>
+const appStore = new AppStore();
 
-            </main>
-        </div>;
-    }
-}
-
-render(<AppView />, document.getElementById('appRoot'));
+ReactDOM.render(<AppView appStore={appStore} />, document.getElementById('appRoot'));
