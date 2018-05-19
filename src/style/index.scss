@@ -1,1 +1,7 @@
 @import './bootstrap.scss';
+
+$navbar-height: $nav-link-height + ($nav-link-padding-y * 2);
+
+[role="main"] {
+    margin-top: $navbar-height;
+}
