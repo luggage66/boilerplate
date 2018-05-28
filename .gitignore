@@ -61,5 +61,5 @@ typings/
 .next
 
 dist/
-lib/
+out/
 database.sqlite

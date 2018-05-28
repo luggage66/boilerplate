@@ -4,17 +4,17 @@
     "synchronize": true,
     "logging": false,
     "entities": [
-        "lib/database/entity/**/*.js"
+        "out/database/entity/**/*.js"
     ],
     "migrations": [
-        "lib/database/migration/**/*.js"
+        "out/database/migration/**/*.js"
     ],
     "subscribers": [
-        "lib/database/subscriber/**/*.js"
+        "out/database/subscriber/**/*.js"
     ],
     "cli": {
-        "entitiesDir": "lib/database/entity",
-        "migrationsDir": "lib/database/migration",
-        "subscribersDir": "lib/database/subscriber"
+        "entitiesDir": "out/database/entity",
+        "migrationsDir": "out/database/migration",
+        "subscribersDir": "out/database/subscriber"
    }
 }

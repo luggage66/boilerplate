@@ -1,8 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: {
         client: './src/client/index'
+    },
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: "assets/entry.[name].[hash].js",
+        chunkFilename: "assets/dependency.[id].[chunkhash].js",
+        publicPath: '/',
     },
     module: {
         rules: [
