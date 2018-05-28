@@ -13,7 +13,7 @@ const ts = require('gulp-typescript');
 const tsServerProject = ts.createProject('tsconfig.json');
 
 const paths = {
-    src: 'src/@(server|shared)/**/*.{js,jsx}',
+    src: 'src/@(server|shared)/**/*.{ts,tsx}',
     destServer: 'out',
     clientDest: 'dist'
 };

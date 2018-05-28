@@ -40,29 +40,27 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
-app.use('/', express.static(path.join(__dirname, "../../static")));
-
 // This re-writes most urls to the root for SPA functionality to work
 app.use(html5HistoryFallback({
     index: '/index.html'
-  }));
+}));
   
-  if (NODE_ENV === 'development')
-  {
-      app.use(webpackDevMiddleware(webpackCompiler, {
-          publicPath: webpackConfig.output.publicPath,
-          stats: {
-              colors: true
-          },
-        //   historyApiFallback: true
-      }));
-      app.use(webpackHotMiddleware(webpackCompiler, {
-          path: "/__webpack_hmr"
-      }));
-  }
-  else { // production, serve static files
-      app.use('/', express.static(path.join(__dirname, "../../static")));
-  }
+if (NODE_ENV === 'development')
+{
+    app.use(webpackDevMiddleware(webpackCompiler, {
+        publicPath: webpackConfig.output.publicPath,
+        stats: {
+            colors: true
+        },
+    //   historyApiFallback: true
+    }));
+    app.use(webpackHotMiddleware(webpackCompiler, {
+        path: "/__webpack_hmr"
+    }));
+}
+else { // production, serve static files
+    app.use('/', express.static(path.join(__dirname, "../../static")));
+}
 
 createConnection().then((connection) => {
     server.listen(8123, async () => {
