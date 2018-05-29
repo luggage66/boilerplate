@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
-import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownItem, UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownItem,
+    UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 @observer
 export default class HeaderView extends React.Component<{}, never> {
@@ -12,7 +13,7 @@ export default class HeaderView extends React.Component<{}, never> {
         this.isOpen = !this.isOpen;
     }
 
-    render () {
+    render() {
         return <Navbar className="shadow" fixed="top" color="primary" dark expand="md">
             <NavbarBrand href="#">Boilerplate</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
