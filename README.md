@@ -1,6 +1,6 @@
 # TODO
 
-- [`x] Webpack bundled client
+- [x] Webpack bundled client
 - [ ] Webpack bundled server
 - [ ] GraphQL Communication
 - [ ] TypeORM

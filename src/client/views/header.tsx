@@ -15,7 +15,7 @@ export default class HeaderView extends React.Component<{}, never> {
 
     render() {
         return <Navbar className="shadow" fixed="top" color="primary" dark expand="md">
-            <NavbarBrand href="#">Boilerplate</NavbarBrand>
+            <NavbarBrand href="#">Sprache-JS</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
@@ -23,7 +23,7 @@ export default class HeaderView extends React.Component<{}, never> {
                         <NavLink href="/components/">Components</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+                        <NavLink href="https://github.com/luggage66/Sprache-js">GitHub</NavLink>
                     </NavItem>
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>
