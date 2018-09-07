@@ -1,0 +1,123 @@
+---
+- name: Install required linux packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - fop
+    - git
+    - gawk
+    - mdbtools
+    - redis-server
+    - build-essential
+    - mono-devel
+
+- name: Add linux user account {{ ace_service_username }}
+  user:
+    name: "{{ ace_service_username }}"
+    generate_ssh_key: yes
+    shell: /bin/bash
+
+- name: Copy .ssh/id_rsa.pub to local
+  fetch:
+    src: /home/{{ ace_service_username }}/.ssh/id_rsa.pub
+    dest: remotefiles
+
+ # NEVER COPY SUDOERS FILE WITHOUT VALIDATING IT!
+- name: Configure sudoers for {{ ace_service_username }} account
+  copy:
+    src: sudoers
+    dest: /etc/sudoers.d/{{ ace_service_username }}
+    validate: visudo -cf %s
+
+- name: Copy {{ ace_service_username }} nginx config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/sites-available/{{ ace_service_username }}
+  notify:
+    - reload nginx
+
+- name: Symlink nginx config into /etc/nginx/sites-enabled
+  file: src=/etc/nginx/sites-available/{{ ace_service_username }} dest=/etc/nginx/sites-enabled/{{ ace_service_username }} state=link
+  notify:
+    - reload nginx
+
+- name: Copy {{ ace_service_name }} systemd service config
+  copy:
+    src: systemd.service
+    dest: /etc/systemd/system/{{ ace_service_name }}.service
+
+  # from https://stackoverflow.com/a/42007139/129032
+- name: retain ssh agents during sudo
+  lineinfile:
+    dest: /etc/sudoers
+    insertafter: '^#?\s*Defaults\s+env_reset\b'
+    line: 'Defaults    env_keep += "SSH_AUTH_SOCK"'
+    validate: visudo -cf %s
+
+- git:
+    repo: ssh://git@github.com/luggage66/sprache-playground.git
+    dest: /home/{{ ace_service_username }}/website
+    accept_hostkey: true
+    clone: yes
+    update: yes
+    version: master
+  # become: true
+  # become_user: "{{ ace_service_username }}"
+  tags: [ 'git', 'never', 'publish' ]
+
+- file:
+    path: /home/{{ ace_service_username }}/website
+    owner: "{{ ace_service_username }}"
+    group: "{{ ace_service_username }}"
+    recurse: yes
+  tags: [ 'publish' ]
+
+- name: Install JS dependencies
+  shell: yarn install
+  args:
+    chdir: /home/{{ ace_service_username }}/website
+  become_user: "{{ ace_service_username }}"
+  tags: [ 'never', 'publish' ]
+
+- shell: yarn run build-server
+  args:
+    chdir: /home/{{ ace_service_username }}/website
+  become_user: "{{ ace_service_username }}"
+  tags: [ 'never', 'publish' ]
+
+- shell: yarn run build-client
+  args:
+    chdir: /home/{{ ace_service_username }}/website
+  become_user: "{{ ace_service_username }}"
+  tags: [ 'never', 'publish' ]
+
+# - template:
+#     src: secrets.js.j2
+#     dest: /home/{{ ace_service_username }}/website/secrets.js
+#     owner: "{{ ace_service_username }}"
+#     group: "{{ ace_service_username }}"
+#     mode: '0600'
+#     backup: yes
+
+- name: Enable {{ ace_service_name }} systemd service
+  systemd:
+    name: "{{ ace_service_name }}.service"
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  tags: [ 'publish' ]
+
+# - name: Register ace app with pm2 and start it
+#   become: true
+#   become_user: "{{ ace_service_username }}"
+#   shell: env pm2 start ecosystem.config.js --env test
+#   args:
+#     chdir: /home/{{ ace_service_username }}/website
+#     executable: /bin/bash
+
+# - name: install pm2 to start services for {{ ace_service_username }}
+#   shell: 
+
+
+

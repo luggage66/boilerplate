@@ -1,0 +1,3 @@
+acewebapp ALL= NOPASSWD: /bin/systemctl start playground
+acewebapp ALL= NOPASSWD: /bin/systemctl stop playground
+acewebapp ALL= NOPASSWD: /bin/systemctl restart playground

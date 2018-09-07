@@ -1,0 +1,68 @@
+---
+
+- name: LetsEncrypt Repo
+  apt_repository:
+    repo: ppa:certbot/certbot
+    state: present
+
+- name: Install Nginx
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - nginx
+    - certbot
+
+- name: html root for Letsencrypt
+  file:
+    path: /var/www/letsencrypt
+    state: directory
+    mode: '644'
+
+# - name: Generate a Self Signed OpenSSL certificate
+#   tags:
+#     - certs
+#   openssl_certificate:
+#     path: /etc/ssl/crt/ansible.com.crt
+#     privatekey_path: /etc/ssl/private/ansible.com.pem
+#     csr_path: /etc/ssl/csr/ansible.com.csr
+#     provider: selfsigned
+
+- name: Remove default nginx sample site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  tags: nginx
+  notify:
+    - reload nginx
+
+- name: Capture files in /etc/nginx/sites-enabled and register
+  shell: >
+    ls -1 /etc/nginx/sites-enabled
+  register: files
+  tags:
+    - never
+    - nginx-disable-all-sites
+
+- name: Disable sites
+  file:
+    path: "/etc/nginx/sites-enabled/{{ item }}"
+    state: absent
+  with_items: "{{ files.stdout_lines }}"
+  notify:
+    - reload nginx
+  tags:
+  - never
+  - nginx-disable-all-sites
+
+- name: Copy http (forward to https) nginx config
+  copy:
+    src: http.nginx.conf
+    dest: /etc/nginx/sites-available/http
+  notify:
+    - reload nginx
+
+- name: Symlink nginx config into /etc/nginx/sites-enabled
+  file: src=/etc/nginx/sites-available/http dest=/etc/nginx/sites-enabled/http state=link
+  tags: nginx
+  notify:
+    - reload nginx

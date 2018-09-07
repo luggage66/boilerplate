@@ -1,0 +1,20 @@
+---
+- name: Add apt-key for postgresql
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: Add postgresql apt repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+    state: present
+    mode: 644
+
+- name: Install Postgresql 10
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "postgresql-10"
+    - python-psycopg2
+    - barman

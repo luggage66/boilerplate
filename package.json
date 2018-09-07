@@ -6,6 +6,8 @@
     "dev": "webpack-dev-server --mode development",
     "dev-client": "webpack --watch",
     "dev-server": "gulp dev-server",
+    "build-server": "gulp build-server",
+    "build-client": "webpack --production",
     "build": "webpack --mode production"
   },
   "license": "MIT",

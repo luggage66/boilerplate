@@ -1,0 +1,22 @@
+---
+# install node 8.x from nodesource.
+- name: Add apt-key for nodesource
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key id=68576280 validate_certs=yes
+
+- name: Add nodesource apt repository
+  apt_repository: repo='deb https://deb.nodesource.com/node_8.x bionic main' state=present mode=644
+
+- name: Add apt-key for yarn
+  apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg id=86E50310 validate_certs=yes
+
+- name: Add yarn apt repository
+  apt_repository: repo='deb https://dl.yarnpkg.com/debian/ stable main' state=present mode=644
+
+- name: Install Node.js
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - nodejs
+    - yarn

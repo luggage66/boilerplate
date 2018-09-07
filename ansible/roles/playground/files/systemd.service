@@ -1,0 +1,25 @@
+[Unit]
+Description=Express
+# Set dependencies to other services (optional)
+#After=mongodb.service
+
+[Service]
+# Run Grunt before starting the server (optional)
+#ExecStartPre=/usr/bin/grunt
+
+# Start the js-file starting the express server
+ExecStart=/usr/bin/node /home/playground/website/out/server/index.js
+WorkingDirectory=/home/playground/website
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=playground
+# Change to a non-root user (optional, but recommended)
+User=playground
+Group=playground
+# Set environment options
+Environment=NODE_ENV=test PORT=3000
+
+[Install]
+WantedBy=multi-user.target

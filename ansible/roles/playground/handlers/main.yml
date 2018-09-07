@@ -1,0 +1,7 @@
+- name: reload nginx
+  shell: nginx -s reload
+
+- name: restart app service
+  systemd:
+    state: restarted
+    name: "{{ ace_service_name }}.service"
