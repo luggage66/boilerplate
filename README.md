@@ -1,16 +1,5 @@
-# TODO
-
-- [x] Webpack bundled client
-- [ ] Webpack bundled server
-- [ ] GraphQL Communication
-- [ ] TypeORM
-- [ ] Github Authentication
-- [ ] Gooogle Authentication (or OpenID)
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+```
+yarn install
+yarn run dev-server
+open http://localhost:8123
+```
