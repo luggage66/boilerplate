@@ -14,6 +14,7 @@
         "forin": false,
         "interface-name": [false],
         "no-namespace": [ false ],
-        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
+        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+        "no-floating-promises": true
     }
 }

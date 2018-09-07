@@ -48,7 +48,7 @@ module.exports = {
             template: './src/client/index.html'
         }),
         new MonacoWebpackPlugin({
-            languages: [ 'typescript' ]
+            languages: [ 'typescript', 'javascript', 'plaintext' ]
         })
     ]
 };
