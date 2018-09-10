@@ -106,9 +106,9 @@ export default class CodeEditorView extends React.Component<CodeEditorViewProps>
         };
 
         return <div
-            style={{height: '400px'}}
+            // style={{height: '400px'}}
             ref={this.containerElementRef}
-            className="editorContainer"
+            className="editorContainer border border-secondary"
         />;
     }
 }

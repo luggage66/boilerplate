@@ -2,6 +2,42 @@
 
 $navbar-height: $nav-link-height + ($nav-link-padding-y * 2);
 
+.editorContainer {
+    height: 100%;
+}
+
 [role="main"] {
     margin-top: $navbar-height;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 2fr 1fr;
+    grid-template-areas:
+        "left right"
+        "foot foot";
+    
+    height: calc(100vh - #{$navbar-height});
+
+    .inputBlock, .codeBlock {
+        > .card {
+            height: 100%;
+
+            > .card-body {
+                height: 100%;
+            }
+        }
+    }
+
+    .inputBlock {
+        grid-area: left;    
+    }
+
+    .codeBlock {
+        grid-area: right;
+    }
+
+    .resultsBlock {
+        grid-area: foot;
+        overflow-y: auto; 
+    }
 }

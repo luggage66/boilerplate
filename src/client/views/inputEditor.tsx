@@ -3,49 +3,70 @@ import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Dropdown, DropdownItem,
     UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import * as monacoEditor from 'monaco-editor';
-import MonacoEditor from 'react-monaco-editor';
+import * as monaco from 'monaco-editor';
 
-export interface InputEditorViewProps {
+// (window as any).monaco = monacoEditor;
+
+// monacoEditor.languages.typescript.getTypeScriptWorker()
+// .then(function(worker) {
+//     worker(model.uri)
+//           .then(function(client) {
+//                 client.getEmitOutput(model.uri.toString()).then(function(r) {});
+//           });
+// });
+
+// @ts-ignore
+// import * as spracheTypeDefs from 'raw-loader!sprache/dist/src/index.d.ts';
+
+const typeContext = require.context('raw-loader!sprache/dist/src', false, /\.d.ts$/);
+
+interface InputEditorViewProps {
     value: string;
     onChange: (newValue: string) => any;
 }
 
 @observer
 export default class InputEditorView extends React.Component<InputEditorViewProps> {
+    containerElementRef = React.createRef<HTMLDivElement>();
+    editor!: monaco.editor.IStandaloneCodeEditor;
+    model!: monaco.editor.ITextModel;
+    changeSubscription!: monaco.IDisposable;
 
-    editorWillMount(monaco: typeof monacoEditor) {
-        // empty
+    onEditorChange = async (e: monaco.editor.IModelContentChangedEvent) => {
+        this.props.onChange(this.model.getValue());
     }
 
-    editorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor, monaco: typeof monacoEditor) => {
-        // empty
+    async componentDidMount() {
+        const containerElement = this.containerElementRef.current!;
+
+        this.model = monaco.editor.createModel(this.props.value, 'plaintext', monaco.Uri.file('/myDSL'));
+
+        this.editor = monaco.editor.create(containerElement, {
+            model: this.model
+        });
+
+        this.changeSubscription = this.editor.onDidChangeModelContent(this.onEditorChange);
     }
 
-    onEditorChange = (newValue: string, e: monacoEditor.editor.IModelContentChangedEvent) => {
-        this.props.onChange(newValue);
-    }
+    componentWillUnmount() {
+        if (this.editor) {
+            this.editor.dispose();
+        }
 
-    onTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        this.props.onChange(event.target.value);
+        if (this.changeSubscription) {
+            this.changeSubscription.dispose();
+        }
     }
 
     render() {
-        return <textarea rows={10} value={this.props.value} onChange={this.onTextAreaChange} />;
-        // const options = {
-        //     selectOnLineNumbers: true
-        // };
+        const options = {
+            selectOnLineNumbers: true
+        };
 
-        // return <MonacoEditor
-        //     // width="800"
-        //     // height="600"
-        //     language="plaintext"
-        //     theme="vs-dark"
-        //     value={this.props.value}
-        //     options={options}
-        //     onChange={this.onEditorChange}
-        //     editorDidMount={this.editorDidMount}
-        //     editorWillMount={this.editorWillMount}
-        // />;
+        return <div
+            // style={{height: '400px'}}
+            ref={this.containerElementRef}
+            className="editorContainer border border-secondary"
+        />;
     }
 }

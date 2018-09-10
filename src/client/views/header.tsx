@@ -14,7 +14,7 @@ export default class HeaderView extends React.Component<{}, never> {
     }
 
     render() {
-        return <Navbar className="shadow" fixed="top" color="primary" dark expand="md">
+        return <Navbar className="" fixed="top" color="primary" dark expand="md">
             <NavbarBrand href="#">Sprache-JS</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.isOpen} navbar>
