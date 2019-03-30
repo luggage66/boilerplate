@@ -44,7 +44,9 @@ module.exports = {
     mode: 'development',
 
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: 'src/client/index.ejs',
+        }),
     ],
 
     resolve: {
