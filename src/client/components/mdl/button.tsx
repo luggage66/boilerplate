@@ -17,7 +17,7 @@ export interface ButtonProps {
 export const Button: React.SFC<ButtonProps> = (props) => {
     const { children, accent, colored, ripple, fab, raised, icon, onClick } = props;
 
-    const buttonRef = useMdl<HTMLButtonElement>();
+    // const buttonRef = useMdl<HTMLButtonElement>();
 
     const classNames = cx('mdl-button mdl-js-button', {
         'mdl-button--accent': accent,
@@ -29,7 +29,7 @@ export const Button: React.SFC<ButtonProps> = (props) => {
     })
 
     return <button
-        ref={buttonRef}
+        // ref={buttonRef}
         className={classNames}
         children={children}
         onClick={onClick}
