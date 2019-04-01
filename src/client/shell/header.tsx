@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Icon } from '../components';
-import { Button } from '../components/mdl';
 import 'material-design-lite';
+import Button from '@material-ui/core/Button';
 
 export interface HeaderProps {
     
@@ -10,7 +10,7 @@ export interface HeaderProps {
 export const Header = (props: HeaderProps) => {
     
 
-    return <Button raised ripple fab>
+    return <Button>
         <Icon icon="plus" />
     </Button>;
 }
