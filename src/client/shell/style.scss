@@ -1,73 +1,71 @@
-@import '~normalize.css';
 $mdi-font-path: "~@mdi/font/fonts";
 @import '~@mdi/font/scss/materialdesignicons.scss';
-@import '~material-design-lite/material.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 $backgroundColor: #333;
 
 
-body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-}
+// body {
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 16px;
+// }
 
-.site-header {
-    color: white;
-}
+// .site-header {
+//     color: white;
+// }
 
-html, body, .application-shell {
-    width: 100vw;
-    height: 100vh;
-}
+// html, body, .application-shell {
+//     width: 100vw;
+//     height: 100vh;
+// }
 
-* {
-    box-sizing: border-box;
-}
+// * {
+//     box-sizing: border-box;
+// }
 
-.application-shell {
-    display: grid;
-    grid-template-areas:
-        "header header"
-        "sidebar body"
-        "footer footer";
+// .application-shell {
+//     display: grid;
+//     grid-template-areas:
+//         "header header"
+//         "sidebar body"
+//         "footer footer";
 
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr 20px;
+//     grid-template-columns: auto 1fr;
+//     grid-template-rows: auto 1fr 20px;
 
-    background-color: $backgroundColor;
-    color: white;
+//     background-color: $backgroundColor;
+//     color: white;
 
-    .application-header {
-        grid-area: header;
+//     .application-header {
+//         grid-area: header;
         
-        // box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.47);
+//         // box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.47);
 
-        background-color: darken($backgroundColor, 2%);
-        border-bottom: 1px solid darken($backgroundColor, 20%);
-    }
+//         background-color: darken($backgroundColor, 2%);
+//         border-bottom: 1px solid darken($backgroundColor, 20%);
+//     }
 
-    .application-sidebar {
-        grid-area: sidebar;        
-        // box-shadow: 5px 0px 8px 0px rgba(0,0,0,0.47);
-    }
+//     .application-sidebar {
+//         grid-area: sidebar;        
+//         // box-shadow: 5px 0px 8px 0px rgba(0,0,0,0.47);
+//     }
 
-    .application-body {
-        grid-area: body;
+//     .application-body {
+//         grid-area: body;
 
-        background-color: darken($backgroundColor, 5%);
+//         background-color: darken($backgroundColor, 5%);
         
-    }
-}
+//     }
+// }
 
-$headerHeight: 40px;
+// $headerHeight: 40px;
 
-.application-header {
-    .header-icon {
+// .application-header {
+//     .header-icon {
         
-    }
-}
+//     }
+// }
 
-.application-sidebar {
+// .application-sidebar {
 
-}
+// }
