@@ -1,3 +1,4 @@
+import { CssBaseline } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import { configure as configureMobx } from 'mobx';
 import * as React from 'react';
@@ -31,6 +32,7 @@ console.log('theme', theme);
 // mount up that app.
 ReactDOM.render(
     <ThemeProvider theme={theme}>
+        <CssBaseline />
         <ShellView />
     </ThemeProvider>,
     rootDiv

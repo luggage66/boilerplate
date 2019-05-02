@@ -1,13 +1,11 @@
-import { observer } from 'mobx-react';
-import * as React from 'react';
-import { ShellViewModel } from './state';
-import './style.scss';
-import { Icon } from '../components';
+import { AppBar, Badge, Button, Divider, Drawer, IconButton, List, Menu, MenuItem, Theme, Toolbar, Typography } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Drawer, AppBar, Toolbar, IconButton, Typography, Badge, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
-
-import { makeStyles, useTheme } from '@material-ui/styles';
+import * as React from 'react';
+import { Icon } from '../components';
+import { RightDrawer } from './rightDrawer';
+import './style.scss';
 
 const drawerWidth = 200;
 
@@ -97,100 +95,104 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export const ShellView: React.SFC<{}> = (props) => {
+export const ShellView: React.SFC<{}> = props => {
 
-    const [drawerState, setDrawerState] = React.useState(() => ({
-        open: true,
-    }));
-
-//     const theme = useTheme<Theme>();
-
+    const [drawerOpen, setDrawerOpen] = React.useState(true);
+    const [helpOpen, setHelpOpen] = React.useState(true);
+    const [ anchorEl, setAnchorEl ] = React.useState<HTMLElement | null>(null);
+    const handleClose = React.useMemo(() => () => setAnchorEl(null), [setAnchorEl]);
+    const accountButtonClick =
+        (event: React.MouseEvent<HTMLElement, MouseEvent>) => setAnchorEl(event.currentTarget as HTMLElement);
     const classes = useStyles();
 
-    // return <>
-    //     <CssBaseline />
-    //     <Drawer
-    //         anchor="left"
-    //         open={drawerState.open}
-    //     >
-    //         Drawer Contents
-    //         <Button variant="contained" onClick={() => setDrawerState({ open: false })}>Close</Button>
-    //     </Drawer>
-    //     <div>
-    //         <Button className={classes.button1} variant="contained" onClick={() => setDrawerState({ open: true })}>Open</Button>
-    //     </div>
-    // </>;
-
-    return <>
-        <CssBaseline />
-        <div className={classes.root}>
-            <AppBar
-                position="absolute"
-                className={classNames(classes.appBar, drawerState.open && classes.appBarShift)}
-            >
-                <Toolbar disableGutters={!drawerState.open} className={classes.toolbar}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={() => setDrawerState({ open: true })}
-                        className={classNames(
-                            classes.menuButton,
-                            drawerState.open && classes.menuButtonHidden,
-                        )}
-                    >
-                        <Icon icon="menu" />
-                    </IconButton>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        color="inherit"
-                        noWrap
-                        className={classes.title}
-                    >
-                        Dashboard
-          </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <Icon icon="home" />
-                        </Badge>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                classes={{
-                    paper: classNames(classes.drawerPaper, !drawerState.open && classes.drawerPaperClose),
-                }}
-                open={drawerState.open}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={() => setDrawerState({ open: false })}>
-                        <Icon icon="chevron-left" />
-                    </IconButton>
-                </div>
-                {/* <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List> */}
-            </Drawer>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Typography variant="h4" gutterBottom component="h2">
-                    Orders
-        </Typography>
-                <Typography component="div" className={classes.chartContainer}>
-                    {/* <SimpleLineChart /> */}
-
+    return <div className={classes.root}>
+        <AppBar
+            position="absolute"
+            className={classNames(classes.appBar, drawerOpen && classes.appBarShift)}
+        >
+            <Toolbar disableGutters={!drawerOpen} className={classes.toolbar}>
+                <IconButton
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={() => setDrawerOpen(true)}
+                    className={classNames(
+                        classes.menuButton,
+                        drawerOpen && classes.menuButtonHidden,
+                    )}
+                >
+                    <Icon icon="menu" />
+                </IconButton>
+                <Typography
+                    component="h1"
+                    variant="h6"
+                    color="inherit"
+                    noWrap
+                    className={classes.title}
+                >
+                    Dashboard
                 </Typography>
-                <Typography variant="h4" gutterBottom component="h2">
-                    Products
-        </Typography>
-                <div className={classes.tableContainer}>
-                    {/* <SimpleTable /> */}
-                    <pre>Table</pre>
-                </div>
-            </main>
-        </div>
-    </>;
+                <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                        <Icon icon="home" />
+                    </Badge>
+                </IconButton>
+                <IconButton color="inherit" onClick={accountButtonClick}>
+                    <Icon icon="account" />
+                </IconButton>
+                <IconButton color="inherit" onClick={() => setHelpOpen(true)}>
+                    <Icon icon="help" />
+                </IconButton>
 
-}
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+            </Toolbar>
+        </AppBar>
+        <Drawer
+            variant="permanent"
+            classes={{
+                paper: classNames(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
+            }}
+            open={drawerOpen}
+        >
+            <div className={classes.toolbarIcon}>
+                <IconButton onClick={() => setDrawerOpen(false)}>
+                    <Icon icon="chevron-left" />
+                </IconButton>
+            </div>
+            <Divider />
+            <List></List>
+            <Divider />
+            <List></List>
+        </Drawer>
+        <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Toolbar>
+                <Typography>Foo</Typography>
+            </Toolbar>
+            <Typography variant="h4" gutterBottom component="h2">
+                Orders
+            </Typography>
+            <Typography component="div" className={classes.chartContainer}>
+                {/* <SimpleLineChart /> */}
+
+            </Typography>
+            <Typography variant="h4" gutterBottom component="h2">
+            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+            </Typography>
+            <div className={classes.tableContainer}>
+                {/* <SimpleTable /> */}
+                <pre>Table</pre>
+            </div>
+        </main>
+        <RightDrawer open={helpOpen} setOpen={setHelpOpen} />
+    </div>;
+
+};
